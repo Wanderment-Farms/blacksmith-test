@@ -1,0 +1,25 @@
+# Nested Immich fork clone — tracked by its own git remote, not by this repo
+immich/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor junk
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Node
+node_modules/
+
+# Env
+.env
