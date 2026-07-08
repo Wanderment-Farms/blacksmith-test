@@ -27,3 +27,9 @@ date,platform,job,run_id,run_attempt,cache_state,queue_s,job_duration_s,conclusi
 2026-07-08,github_actions,e2e-tests-server-cli,28921661416,1,warm,,474,success,https://github.com/Wanderment-Farms/immich/actions/runs/28921661416
 2026-07-08,github_actions,docker-build-server,28921303027,1,cold,,437,success,https://github.com/Wanderment-Farms/immich/actions/runs/28921303027
 2026-07-08,github_actions,docker-build-server,28921661416,1,warm,,18,success,https://github.com/Wanderment-Farms/immich/actions/runs/28921661416
+2026-07-08,blacksmith,server-unit-tests,28921685113,2,warm,,95,success,https://github.com/Wanderment-Farms/immich/actions/runs/28921685113
+2026-07-08,blacksmith,server-medium-tests,28921685113,2,warm,,122,success,https://github.com/Wanderment-Farms/immich/actions/runs/28921685113
+2026-07-08,blacksmith,web-lint,28921685113,2,warm,,101,success,https://github.com/Wanderment-Farms/immich/actions/runs/28921685113
+2026-07-08,blacksmith,web-unit-tests,28921685113,2,warm,,66,success,https://github.com/Wanderment-Farms/immich/actions/runs/28921685113
+2026-07-08,blacksmith,e2e-tests-server-cli,28921685113,2,warm,,297,success,https://github.com/Wanderment-Farms/immich/actions/runs/28921685113
+2026-07-08,blacksmith,docker-build-server,28921685113,2,warm,,18,success,https://github.com/Wanderment-Farms/immich/actions/runs/28921685113
