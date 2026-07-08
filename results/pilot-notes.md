@@ -46,5 +46,26 @@ Blacksmith side: pending -- App authorization in progress as of this note.
 
 Deliberate failure pushed to `bench/gha` (flipped one assertion in
 `server/src/utils/mime-types.spec.ts`, commit `2b3bb6e2f`) to capture the
-debugging experience. GitHub Actions side result below; Blacksmith side to
-follow once its runs are live.
+debugging experience. Same change pushed to `bench/blacksmith` (commit
+`410c65d00`), queued and ready to fire the moment its runner connects.
+
+**GitHub Actions result** (run 28915304177, [log](https://github.com/Wanderment-Farms/immich/actions/runs/28915304177)):
+- Log clarity: excellent out of the box. Vitest's own reporter prints the exact
+  file:line, an inline code snippet around the failing assertion, and a clean
+  expected/received diff (`Expected: ".pngx"` / `Received: ".png"`) directly in
+  the raw Actions log -- no extra tooling needed to spot the failing line.
+- Time-to-signal: total run was 3m29s (created_at -> updated_at), effectively the
+  same as a passing run. Our step ordering (format -> lint -> typecheck -> full
+  test suite) has no fail-fast between steps, and Vitest itself ran the complete
+  2237-test suite before reporting the one failure at the end -- so "the assertion
+  I broke" and "20 unrelated tests I didn't touch" surface at the same time, same
+  place. Worth noting for the full run: a job design choice (this one, inherited
+  loosely from Immich's own `ci-unit` task), not a GitHub Actions platform limit.
+- Per-step timing breakdown: visible natively (each step shows its own duration
+  in the Actions UI/log) -- no extra tooling needed.
+- SSH-into-runner debugging: not available natively; would need a marketplace
+  action (e.g. `mxschmitt/action-tmate`) added to the workflow ahead of time.
+- Cache hit/miss visibility: `actions/setup-node`'s cache step logs a clear
+  "Cache restored from key: ..." / "Cache not found for input keys: ..." line.
+
+Blacksmith side: pending -- will fill in identically once its run completes.
