@@ -93,6 +93,30 @@ differentiate the platforms; both caching approaches work equally well here.
 | e2e-tests-server-cli | 467 | 474 | 366 | 290 |
 | docker-build-server | 437 | 18 | 251 | 17 |
 
+## Reliability
+
+Tally across every attempted job-run this session (excluding the intentional
+failure tests, which were deliberate and are covered under Observability):
+
+| platform | total job-runs attempted | failures | flaky (fails then passes with no change) | cache inconsistencies |
+|---|---|---|---|---|
+| GitHub Actions | 14 | 1 | 0 | 0 |
+| Blacksmith | 14 | 1 | 0 | 0 |
+
+Both platforms: exactly 1 failure each, and it's the *same* failure --
+`server-medium-tests` missing the `test-assets` submodule (our workflow bug,
+not a platform issue), fixed identically on both branches, then 100% success
+on every subsequent run. **No flakiness observed on either platform** -- no
+case of an identical rerun producing a different result, no cache-corruption
+symptom, no run that queued and never started (once the Blacksmith App was
+connected).
+
+**Honest limitation:** n=14 job-runs per platform is enough to say "no
+flakiness observed," not "provably equally reliable" -- real flakiness
+(intermittent, code-unrelated failures) typically needs the original plan's
+20-30-runs-per-cell to detect with any confidence. This dimension is a tie at
+the sample size we actually collected, not a proven tie.
+
 ## Observability & Debugging
 
 Deliberate failure pushed to `bench/gha` (flipped one assertion in
