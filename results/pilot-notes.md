@@ -69,3 +69,30 @@ debugging experience. Same change pushed to `bench/blacksmith` (commit
   "Cache restored from key: ..." / "Cache not found for input keys: ..." line.
 
 Blacksmith side: pending -- will fill in identically once its run completes.
+
+## Session paused overnight (2026-07-08, ~04:40 UTC)
+
+Blacksmith support hasn't approved the GitHub App yet; expected tomorrow morning.
+Picking back up: nothing to redo, everything is parked clean.
+
+**State left behind:**
+- Both repos live under the `Wanderment-Farms` org (transferred from `mejoff`
+  mid-session -- Blacksmith signup requires org ownership).
+- `bench/gha`: clean, passing, reverted after the deliberate-failure test. Real
+  cold (208s) + warm (200s) data captured above.
+- `bench/blacksmith`: clean, reverted, one fresh queued run (`28917954313`)
+  waiting for a runner -- will fire the instant the App connects. This will be
+  the first real Blacksmith data point (treat as the cold run).
+- The stale broken-assertion run that had been sitting queued for over an hour
+  was explicitly cancelled (`gh run cancel 28915362085`) so tomorrow's first
+  Blacksmith run isn't a confusing intentional failure.
+
+**Tomorrow's sequence once the App is approved:**
+1. Confirm the queued run (`28917954313`) picks up and completes -- that's
+   Blacksmith cold.
+2. `gh run rerun 28917954313` for the warm-cache data point.
+3. Redo the deliberate-failure test fresh on `bench/blacksmith` (same edit as
+   `bench/gha`'s, `server/src/utils/mime-types.spec.ts` line 109 -> `.pngx`),
+   capture the debugging-experience findings, then revert.
+4. Decide: wrap up with this pilot's n=1 data as-is, or spend more time running
+   the full 20-30-run matrix from the original plan before writing the report.
