@@ -198,3 +198,60 @@ Picking back up: nothing to redo, everything is parked clean.
    capture the debugging-experience findings, then revert.
 4. Decide: wrap up with this pilot's n=1 data as-is, or spend more time running
    the full 20-30-run matrix from the original plan before writing the report.
+
+## Overall Developer Experience (2026-07-08, after full 6-job expansion)
+
+Objective observations first, subjective read second -- kept separate on
+purpose.
+
+**Which feels faster?** Not a feeling -- Blacksmith was faster on every single
+job tested, from ~1.4x (e2e-tests-server-cli) to 5.3x (the ESLint step in
+web-lint). Consistent, not a one-off.
+
+**Which requires less operational effort?** GitHub Actions, clearly -- it's
+the zero-setup default for any repo. Blacksmith required: creating a GitHub
+org (its signup won't work against a personal account), waiting overnight for
+Blacksmith's own human approval of the App install, then editing every
+workflow file to swap runner labels and cache/build actions. None of that is
+hard, but none of it is "free" either, and the approval wait was the single
+biggest source of dead time all session.
+
+**Which inspires more confidence?** Split. GitHub Actions' availability is
+unconditional -- it's just there, no approval gate, no dependency on a
+third-party support queue. But once Blacksmith was actually running, it was
+exactly as reliable as GitHub in this session (0 platform-caused failures on
+either side, see Reliability above) -- the confidence gap is about *getting
+started*, not about *running*.
+
+**Which has the better documentation?** Mixed. Blacksmith's own docs (quickstart,
+migration guide) were clear and accurate about the mechanical runs-on swap.
+What they didn't surface: that Blacksmith requires org ownership (we only
+found this out mid-signup), and their in-product "Migration Wizard" defaults
+to auto-generating a PR that rewrites every workflow in the repo -- fine for a
+real one-time migration, actively wrong for a controlled side-by-side
+comparison like this one. Caught before it caused damage, but only because we
+were watching closely.
+
+**Which has the better day-to-day experience?** Once a job is running,
+essentially identical -- same GitHub Actions log UI, same per-step timing,
+same failure reporting, because Blacksmith is a runner substitution, not a
+different CI product. Blacksmith's dashboard advertises SSH-into-runner
+debugging and cache/test analytics we didn't end up needing tonight (nothing
+failed for a non-obvious reason) -- a real feature on paper, unverified by us
+in practice.
+
+**Which would I choose?** Not ours to answer for Joff -- that's the one
+genuinely personal call in this whole report. The evidence above is what it
+is: substantial, consistent speed gains, most pronounced on CPU-bound work
+like linting, purchased with real upfront setup friction (an org, an approval
+wait, and a workflow-editing pass) that GitHub Actions doesn't ask for at all.
+
+## Final Scorecard
+
+| Dimension | GitHub Actions | Blacksmith | Winner | Notes |
+|---|---|---|---|---|
+| 1. Setup & Onboarding | Zero setup, always available | Org required, overnight approval wait, workflow edits needed | **GitHub Actions** | Blacksmith's friction is real and mostly one-time, but it was the single biggest time cost of the whole session |
+| 2. Workflow Performance | Baseline | 1.4x-5.3x faster across every job tested; biggest edge on CPU-bound ESLint | **Blacksmith** | n=1-2 per cell, directional not statistically powered -- but the pattern was consistent across all 6 jobs |
+| 3. Reliability | 0 platform failures / 14 job-runs | 0 platform failures / 14 job-runs | **Tie** | Genuinely symmetric at this sample size; both had exactly 1 failure and it was our own workflow bug, identical on both sides |
+| 4. Observability & Debugging | Identical log/UI experience; no native SSH debug | Identical log/UI experience; dashboard advertises SSH debug + analytics (untested) | **Tie, edge to Blacksmith on paper** | Same underlying GitHub Actions UI either way; Blacksmith's extra tooling is a real but unverified claim |
+| 5. Overall Developer Experience | Simpler to start, slower to run | Harder to start, faster to run | **Depends on what you're optimizing for** | Not scored -- see the DX section above for the tradeoff, the choice is Joff's to make |
