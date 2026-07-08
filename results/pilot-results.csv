@@ -1,3 +1,4 @@
 date,platform,job,run_id,run_attempt,cache_state,queue_s,job_duration_s,conclusion,run_url
 2026-07-08,github_actions,server-unit-tests,28914033120,1,cold,2,208,success,https://github.com/Wanderment-Farms/immich/actions/runs/28914033120
 2026-07-08,github_actions,server-unit-tests,28914033120,2,warm,1,200,success,https://github.com/Wanderment-Farms/immich/actions/runs/28914033120
+2026-07-08,blacksmith,server-unit-tests,28920274135,1,cold,7,88,success,https://github.com/Wanderment-Farms/immich/actions/runs/28920274135
